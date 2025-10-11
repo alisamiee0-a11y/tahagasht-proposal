@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ارائه پروپوزال همکاری با طاهاگشت</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'IRANSansX';
+            src: url('https://assets.megawork.io/fonts/IRANSansX-Regular.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'IRANSansX';
+            src: url('https://assets.megawork.io/fonts/IRANSansX-Bold.woff2') format('woff2');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        body {
+            font-family: 'IRANSansX', 'Vazirmatn', sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            overscroll-behavior: none;
+        }
+
+        /* Tahagasht Brand Colors */
+        .taha-blue { background-color: #333079; }
+        .taha-yellow { background-color: #F1C400; }
+        .text-taha-blue { color: #333079; }
+        .text-taha-yellow { color: #F1C400; }
+        .border-taha-yellow { border-color: #F1C400; }
+
+        .slide {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 1rem 2rem;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .slide.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .presentation-container {
+            position: relative;
+            width: 95vw;
+            max-width: 1200px;
+            aspect-ratio: 16 / 9;
+            max-height: 95vh;
+            margin: 0;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .stat-card {
+            background-color: #f8f9fa;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            text-align: right;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-top: 4px solid;
+            transition: transform 0.2s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .stat-card-blue { border-color: #4299e1; }
+        .stat-card-purple { border-color: #9f7aea; }
+        .stat-card-teal { border-color: #38b2ac; }
+        .stat-card-orange { border-color: #ed8936; }
+
+        .stat-card h3 {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+        .stat-card .main-stat {
+            font-size: 1.75rem;
+            font-weight: bold;
+            color: #1a202c;
+        }
+        .stat-card .sub-stat {
+            font-size: 1rem;
+            color: #718096;
+        }
+
+        .nav-btn {
+            position: absolute;
+            bottom: 20px;
+            background-color: #333079;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            z-index: 10;
+            transition: background-color 0.3s;
+            font-size: 1.2rem;
+        }
+        .nav-btn:hover {
+            background-color: #455089;
+        }
+        #prevBtn { left: 20px; }
+        #nextBtn { right: 20px; }
+
+        .slide-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333079;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #F1C400;
+        }
+        
+        ul.proposal-list li {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            background-color: rgba(241, 196, 0, 0.1);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border-right: 5px solid #F1C400;
+        }
+        
+        .kpi-image {
+            max-width: 90%;
+            max-height: 70vh;
+            border-radius: 1rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .summary-table {
+            font-size: 0.8rem;
+        }
+        .summary-table th, .summary-table td {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #e2e8f0;
+        }
+        .summary-table th {
+            background-color: #333079;
+            color: white;
+        }
+        .summary-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .growth {
+            color: #38a169;
+            font-weight: bold;
+        }
+        .decline {
+            color: #e53e3e;
+            font-weight: bold;
+        }
+        
+        @media (min-width: 768px) {
+            .slide { padding: 2.5rem; }
+            .slide-title { font-size: 2.5rem; margin-bottom: 2rem; }
+            .stat-card h3 { font-size: 1.1rem; }
+            .stat-card .main-stat { font-size: 2.25rem; }
+            .stat-card .sub-stat { font-size: 1.25rem; }
+            ul.proposal-list li { font-size: 1.5rem; }
+            .summary-table { font-size: 1rem; }
+        }
+
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+
+    <div class="presentation-container">
+
+        <!-- Slide 1: Welcome -->
+        <div class="slide active bg-white">
+            <img src="https://s34.picofile.com/file/8487040084/Horizontal_Logo.png" alt="لوگوی طاهاگشت" class="w-2/3 md:w-1/2">
+            <h1 class="text-taha-blue text-3xl md:text-5xl font-bold mt-8">پروپوزال همکاری سئو</h1>
+            <p class="text-gray-600 text-xl md:text-2xl mt-4">تا پایان اسفند ۱۴۰۴</p>
+        </div>
+        
+        <!-- Slide 2: Section Title - GSC Overall -->
+        <div class="slide">
+            <h2 class="slide-title">گزارش عملکرد کل سایت (Search Console)</h2>
+        </div>
+
+        <!-- Slide 3: GSC 3m vs 3m last year -->
+        <div class="slide">
+            <h2 class="slide-title">مقایسه ۳ ماه اخیر با دوره مشابه سال قبل</h2>
+            <p class="text-lg md:text-xl text-gray-500 -mt-2 md:-mt-4 mb-4">بالا: ۳ ماه اخیر / پایین: دوره مشابه سال قبل</p>
+            <div class="w-full grid grid-cols-2 lg:grid-cols-4 gap-4 px-4">
+                <div class="stat-card stat-card-blue"><h3>کلیک‌ها</h3> <p class="main-stat">232K</p> <p class="sub-stat">181K</p></div>
+                <div class="stat-card stat-card-purple"><h3>نمایش‌ها</h3> <p class="main-stat">6.8M</p> <p class="sub-stat">4.59M</p></div>
+                <div class="stat-card stat-card-teal"><h3>میانگین CTR</h3> <p class="main-stat">3.4%</p> <p class="sub-stat">3.9%</p></div>
+                <div class="stat-card stat-card-orange"><h3>میانگین جایگاه</h3> <p class="main-stat">9.7</p> <p class="sub-stat">9.3</p></div>
+            </div>
+        </div>
+
+        <!-- Slide 4: GSC 3m vs prev 3m -->
+        <div class="slide">
+            <h2 class="slide-title">مقایسه ۳ ماه اخیر با ۳ ماه گذشته</h2>
+            <p class="text-lg md:text-xl text-gray-500 -mt-2 md:-mt-4 mb-4">بالا: ۳ ماه اخیر / پایین: ۳ ماه گذشته</p>
+            <div class="w-full grid grid-cols-2 lg:grid-cols-4 gap-4 px-4">
+                <div class="stat-card stat-card-blue"><h3>کلیک‌ها</h3> <p class="main-stat">232K</p> <p class="sub-stat">211K</p></div>
+                <div class="stat-card stat-card-purple"><h3>نمایش‌ها</h3> <p class="main-stat">6.8M</p> <p class="sub-stat">6.23M</p></div>
+                <div class="stat-card stat-card-teal"><h3>میانگین CTR</h3> <p class="main-stat">3.4%</p> <p class="sub-stat">3.4%</p></div>
+                <div class="stat-card stat-card-orange"><h3>میانگین جایگاه</h3> <p class="main-stat">9.7</p> <p class="sub-stat">10</p></div>
+            </div>
+        </div>
+        
+        <!-- Slide 5: GSC 6m vs prev 6m -->
+        <div class="slide">
+            <h2 class="slide-title">مقایسه ۶ ماه اخیر با ۶ ماه گذشته</h2>
+            <p class="text-lg md:text-xl text-gray-500 -mt-2 md:-mt-4 mb-4">بالا: ۶ ماه اخیر / پایین: ۶ ماه گذشته</p>
+            <div class="w-full grid grid-cols-2 lg:grid-cols-4 gap-4 px-4">
+                <div class="stat-card stat-card-blue"><h3>کلیک‌ها</h3> <p class="main-stat">443K</p> <p class="sub-stat">367K</p></div>
+                <div class="stat-card stat-card-purple"><h3>نمایش‌ها</h3> <p class="main-stat">13M</p> <p class="sub-stat">13.6M</p></div>
+                <div class="stat-card stat-card-teal"><h3>میانگین CTR</h3> <p class="main-stat">3.4%</p> <p class="sub-stat">2.7%</p></div>
+                <div class="stat-card stat-card-orange"><h3>میانگین جایگاه</h3> <p class="main-stat">9.8</p> <p class="sub-stat">9.2</p></div>
+            </div>
+        </div>
+        
+        <!-- Slide 6: GSC 28d vs 28d last year -->
+        <div class="slide">
+            <h2 class="slide-title">مقایسه ۲۸ روز اخیر با دوره مشابه سال قبل</h2>
+            <p class="text-lg md:text-xl text-gray-500 -mt-2 md:-mt-4 mb-4">بالا: ۲۸ روز اخیر / پایین: دوره مشابه سال قبل</p>
+            <div class="w-full grid grid-cols-2 lg:grid-cols-4 gap-4 px-4">
+                <div class="stat-card stat-card-blue"><h3>کلیک‌ها</h3> <p class="main-stat">78.7K</p> <p class="sub-stat">74.5K</p></div>
+                <div class="stat-card stat-card-purple"><h3>نمایش‌ها</h3> <p class="main-stat">2.22M</p> <p class="sub-stat">2.35M</p></div>
+                <div class="stat-card stat-card-teal"><h3>میانگین CTR</h3> <p class="main-stat">3.6%</p> <p class="sub-stat">3.2%</p></div>
+                <div class="stat-card stat-card-orange"><h3>میانگین جایگاه</h3> <p class="main-stat">9.2</p> <p class="sub-stat">8.5</p></div>
+            </div>
+        </div>
+
+        <!-- Slide 7: GSC 28d vs prev 28d -->
+        <div class="slide">
+            <h2 class="slide-title">مقایسه ۲۸ روز اخیر با ۲۸ روز گذشته</h2>
+            <p class="text-lg md:text-xl text-gray-500 -mt-2 md:-mt-4 mb-4">بالا: ۲۸ روز اخیر / پایین: ۲۸ روز گذشته</p>
+            <div class="w-full grid grid-cols-2 lg:grid-cols-4 gap-4 px-4">
+                <div class="stat-card stat-card-blue"><h3>کلیک‌ها</h3> <p class="main-stat">78.7K</p> <p class="sub-stat">79.7K</p></div>
+                <div class="stat-card stat-card-purple"><h3>نمایش‌ها</h3> <p class="main-stat">2.22M</p> <p class="sub-stat">2.26M</p></div>
+                <div class="stat-card stat-card-teal"><h3>میانگین CTR</h3> <p class="main-stat">3.6%</p> <p class="sub-stat">3.5%</p></div>
+                <div class="stat-card stat-card-orange"><h3>میانگین جایگاه</h3> <p class="main-stat">9.2</p> <p class="sub-stat">9.7</p></div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Section Title - Tour -->
+        <div class="slide">
+             <h2 class="slide-title">بازاریابی محتوایی (محصول تور)</h2>
+        </div>
+        
+        <!-- Slide 9: Tour 3m vs 3m YoY -->
+        <div class="slide">
+            <h2 class="slide-title">محصول تور: ۳ ماه اخیر با دوره مشابه سال قبل</h2>
+            <p class="text-lg md:text-xl text-gray-500 -mt-2 md:-mt-4 mb-4">بالا: ۳ ماه اخیر / پایین: دوره مشابه سال قبل</p>
+            <div class="w-full grid grid-cols-2 lg:grid-cols-4 gap-4 px-4">
+                <div class="stat-card stat-card-blue"><h3>کلیک‌ها</h3> <p class="main-stat">90K</p> <p class="sub-stat">76.2K</p></div>
+                <div class="stat-card stat-card-purple"><h3>نمایش‌ها</h3> <p class="main-stat">2.49M</p> <p class="sub-stat">3.7M</p></div>
+                <div class="stat-card stat-card-teal"><h3>میانگین CTR</h3> <p class="main-stat">3.6%</p> <p class="sub-stat">2.1%</p></div>
+                <div class="stat-card stat-card-orange"><h3>میانگین جایگاه</h3> <p class="main-stat">11.3</p> <p class="sub-stat">7.5</p></div>
+            </div>
+        </div>
+        
+        <!-- Slide 10: Tour 3m vs prev 3m -->
+        <div class="slide">
+            <h2 class="slide-title">محصول تور: ۳ ماه اخیر با ۳ ماه گذشته</h2>
+            <p class="text-lg md:text-xl text-gray-500 -mt-2 md:-mt-4 mb-4">بالا: ۳ ماه اخیر / پایین: ۳ ماه گذشته</p>
+            <div class="w-full grid grid-cols-2 lg:grid-cols-4 gap-4 px-4">
+                <div class="stat-card stat-card-blue"><h3>کلیک‌ها</h3> <p class="main-stat">90K</p> <p class="sub-stat">76.7K</p></div>
+                <div class="stat-card stat-card-purple"><h3>نمایش‌ها</h3> <p class="main-stat">2.49M</p> <p class="sub-stat">2.28M</p></div>
+                <div class="stat-card stat-card-teal"><h3>میانگین CTR</h3> <p class="main-stat">3.6%</p> <p class="sub-stat">3.4%</p></div>
+                <div class="stat-card stat-card-orange"><h3>میانگین جایگاه</h3> <p class="main-stat">11.3</p> <p class="sub-stat">11.9</p></div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Tour 6m vs prev 6m -->
+        <div class="slide">
+            <h2 class="slide-title">محصول تور: ۶ ماه اخیر با ۶ ماه گذشته</h2>
+            <p class="text-lg md:text-xl text-gray-500 -mt-2 md:-mt-4 mb-4">بالا: ۶ ماه اخیر / پایین: ۶ ماه گذشته</p>
+            <div class="w-full grid grid-cols-2 lg:grid-cols-4 gap-4 px-4">
+                <div class="stat-card stat-card-blue"><h3>کلیک‌ها</h3> <p class="main-stat">167K</p> <p class="sub-stat">141K</p></div>
+                <div class="stat-card stat-card-purple"><h3>نمایش‌ها</h3> <p class="main-stat">4.77M</p> <p class="sub-stat">6.09M</p></div>
+                <div class="stat-card stat-card-teal"><h3>میانگین CTR</h3> <p class="main-stat">3.5%</p> <p class="sub-stat">2.3%</p></div>
+                <div class="stat-card stat-card-orange"><h3>میانگین جایگاه</h3> <p class="main-stat">11.6</p> <p class="sub-stat">8.9</p></div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Tour proposals -->
+        <div class="slide">
+             <h2 class="slide-title">اقدامات پیشنهادی برای محصول تور</h2>
+             <ul class="proposal-list text-right w-full max-w-3xl">
+                <li>ساخت پکیج‌های جدید ارسالی و آپدیت بخش پکیج‌های لوکس</li>
+                <li>تمرکز بر ساخت صفحات جانبی برای تورهای دبی و استانبول (ماهانه ۱۵ صفحه جدید برای هر مقصد)</li>
+                <li>انتشار پکیج‌های "به زودی" (Coming Soon) برای صفحات ساخته شده</li>
+             </ul>
+        </div>
+        
+        <!-- Slide 13: Section Title - Flight -->
+        <div class="slide">
+             <h2 class="slide-title">بازاریابی محتوایی (محصول بلیط هواپیما)</h2>
+        </div>
+
+        <!-- Slide 14: Flight 3m vs 3m YoY -->
+        <div class="slide">
+            <h2 class="slide-title">محصول پرواز: ۳ ماه اخیر با دوره مشابه سال قبل</h2>
+            <p class="text-lg md:text-xl text-gray-500 -mt-2 md:-mt-4 mb-4">بالا: ۳ ماه اخیر / پایین: دوره مشابه سال قبل</p>
+            <div class="w-full grid grid-cols-2 lg:grid-cols-4 gap-4 px-4">
+                <div class="stat-card stat-card-blue"><h3>کلیک‌ها</h3> <p class="main-stat">95.1K</p> <p class="sub-stat">53.9K</p></div>
+                <div class="stat-card stat-card-purple"><h3>نمایش‌ها</h3> <p class="main-stat">6.18M</p> <p class="sub-stat">6.38M</p></div>
+                <div class="stat-card stat-card-teal"><h3>میانگین CTR</h3> <p class="main-stat">1.5%</p> <p class="sub-stat">0.8%</p></div>
+                <div class="stat-card stat-card-orange"><h3>میانگین جایگاه</h3> <p class="main-stat">8.6</p> <p class="sub-stat">9.1</p></div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Flight 3m vs prev 3m -->
+        <div class="slide">
+            <h2 class="slide-title">محصول پرواز: ۳ ماه اخیر با ۳ ماه گذشته</h2>
+            <p class="text-lg md:text-xl text-gray-500 -mt-2 md:-mt-4 mb-4">بالا: ۳ ماه اخیر / پایین: ۳ ماه گذشته</p>
+            <div class="w-full grid grid-cols-2 lg:grid-cols-4 gap-4 px-4">
+                <div class="stat-card stat-card-blue"><h3>کلیک‌ها</h3> <p class="main-stat">95.1K</p> <p class="sub-stat">71.4K</p></div>
+                <div class="stat-card stat-card-purple"><h3>نمایش‌ها</h3> <p class="main-stat">6.18M</p> <p class="sub-stat">6.2M</p></div>
+                <div class="stat-card stat-card-teal"><h3>میانگین CTR</h3> <p class="main-stat">1.5%</p> <p class="sub-stat">1.2%</p></div>
+                <div class="stat-card stat-card-orange"><h3>میانگین جایگاه</h3> <p class="main-stat">8.6</p> <p class="sub-stat">9.2</p></div>
+            </div>
+        </div>
+
+        <!-- Slide 16: Flight 6m vs prev 6m -->
+        <div class="slide">
+            <h2 class="slide-title">محصول پرواز: ۶ ماه اخیر با ۶ ماه گذشته</h2>
+            <p class="text-lg md:text-xl text-gray-500 -mt-2 md:-mt-4 mb-4">بالا: ۶ ماه اخیر / پایین: ۶ ماه گذشته</p>
+            <div class="w-full grid grid-cols-2 lg:grid-cols-4 gap-4 px-4">
+                <div class="stat-card stat-card-blue"><h3>کلیک‌ها</h3> <p class="main-stat">166K</p> <p class="sub-stat">132K</p></div>
+                <div class="stat-card stat-card-purple"><h3>نمایش‌ها</h3> <p class="main-stat">12.4M</p> <p class="sub-stat">28.6M</p></div>
+                <div class="stat-card stat-card-teal"><h3>میانگین CTR</h3> <p class="main-stat">1.3%</p> <p class="sub-stat">0.5%</p></div>
+                <div class="stat-card stat-card-orange"><h3>میانگین جایگاه</h3> <p class="main-stat">8.9</p> <p class="sub-stat">8.9</p></div>
+            </div>
+        </div>
+
+        <!-- Slide 17: Flight proposals -->
+        <div class="slide">
+             <h2 class="slide-title">اقدامات پیشنهادی برای بلیط هواپیما</h2>
+             <ul class="proposal-list text-right w-full max-w-3xl">
+                <li>طراحی اتوماسیون نگارش محتوا برای صفحات بلیط هواپیما</li>
+                <li>تحقیق کلمات کلیدی جامع برای صفحات پروازی، فرودگاه‌ها، شهرها و کشورها</li>
+                <li>طراحی مسیر تولید محتوا و تست فنی با همکاری تیم شما</li>
+                <li>اجرای نهایی اتوماسیون برای تمامی صفحات هدف</li>
+             </ul>
+        </div>
+
+        <!-- Slide 18: NEW Section Title - Visa & Hotel -->
+        <div class="slide">
+            <h2 class="slide-title">استراتژی سئو (محصولات ویزا و هتل)</h2>
+        </div>
+
+        <!-- Slide 19: NEW Visa Proposals -->
+        <div class="slide">
+            <h2 class="slide-title">اقدامات پیشنهادی برای محصول ویزا</h2>
+            <ul class="proposal-list text-right w-full max-w-3xl">
+               <li>طراحی استراتژی سئو شامل تحقیق کلمات کلیدی</li>
+               <li>طراحی اسکچ اولیه ساختار صفحه</li>
+               <li>همکاری مستمر با تیم دیزاین جهت پیاده‌سازی</li>
+            </ul>
+       </div>
+
+       <!-- Slide 20: NEW Hotel Proposals -->
+       <div class="slide">
+            <h2 class="slide-title">اقدامات پیشنهادی برای محصول هتل</h2>
+            <ul class="proposal-list text-right w-full max-w-3xl">
+               <li>طراحی استراتژی سئو شامل تحقیق کلمات کلیدی و طراحی وایرفریم</li>
+               <li>همکاری با تیم‌های دیزاین و فنی جهت پیاده‌سازی صفحات</li>
+               <li>بهینه سازی ماهانه ۱۵ صفحه از صفحات هتل</li>
+            </ul>
+       </div>
+        
+        <!-- Slide 21: Summary Table -->
+        <div class="slide">
+            <h2 class="slide-title">جدول مقایسه عملکرد محصولات</h2>
+            <div class="w-full max-w-6xl px-4 overflow-auto">
+                <table class="w-full text-center border-collapse summary-table">
+                    <thead>
+                        <tr>
+                            <th>محصول</th>
+                            <th>بازه مقایسه</th>
+                            <th>معیار</th>
+                            <th>دوره فعلی</th>
+                            <th>دوره قبلی</th>
+                            <th>درصد تغییر</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td rowspan="4" class="font-bold align-middle">تور</td><td rowspan="4" class="align-middle">۳ ماه اخیر<br>مقابل<br>دوره مشابه سال قبل</td><td>کلیک</td><td>90K</td><td>76.2K</td><td class="growth">+18.1% ▲</td></tr>
+                        <tr><td>نمایش</td><td>2.49M</td><td>3.7M</td><td class="decline">-32.7% ▼</td></tr>
+                        <tr><td>CTR</td><td>3.6%</td><td>2.1%</td><td class="growth">+71.4% ▲</td></tr>
+                        <tr><td>جایگاه</td><td>11.3</td><td>7.5</td><td class="decline">+50.7% ▼</td></tr>
+                        
+                        <tr class="bg-gray-100"><td rowspan="4" class="font-bold align-middle">تور</td><td rowspan="4" class="align-middle">۳ ماه اخیر<br>مقابل<br>۳ ماه گذشته</td><td>کلیک</td><td>90K</td><td>76.7K</td><td class="growth">+17.3% ▲</td></tr>
+                        <tr class="bg-gray-100"><td>نمایش</td><td>2.49M</td><td>2.28M</td><td class="growth">+9.2% ▲</td></tr>
+                        <tr class="bg-gray-100"><td>CTR</td><td>3.6%</td><td>3.4%</td><td class="growth">+5.9% ▲</td></tr>
+                        <tr class="bg-gray-100"><td>جایگاه</td><td>11.3</td><td>11.9</td><td class="growth">-5.0% ▲</td></tr>
+
+                        <tr><td rowspan="4" class="font-bold align-middle">تور</td><td rowspan="4" class="align-middle">۶ ماه اخیر<br>مقابل<br>۶ ماه گذشته</td><td>کلیک</td><td>167K</td><td>141K</td><td class="growth">+18.4% ▲</td></tr>
+                        <tr><td>نمایش</td><td>4.77M</td><td>6.09M</td><td class="decline">-21.7% ▼</td></tr>
+                        <tr><td>CTR</td><td>3.5%</td><td>2.3%</td><td class="growth">+52.2% ▲</td></tr>
+                        <tr><td>جایگاه</td><td>11.6</td><td>8.9</td><td class="decline">+30.3% ▼</td></tr>
+
+                        <tr class="bg-gray-100"><td rowspan="4" class="font-bold align-middle">پرواز</td><td rowspan="4" class="align-middle">۳ ماه اخیر<br>مقابل<br>دوره مشابه سال قبل</td><td>کلیک</td><td>95.1K</td><td>53.9K</td><td class="growth">+76.4% ▲</td></tr>
+                        <tr class="bg-gray-100"><td>نمایش</td><td>6.18M</td><td>6.38M</td><td class="decline">-3.1% ▼</td></tr>
+                        <tr class="bg-gray-100"><td>CTR</td><td>1.5%</td><td>0.8%</td><td class="growth">+87.5% ▲</td></tr>
+                        <tr class="bg-gray-100"><td>جایگاه</td><td>8.6</td><td>9.1</td><td class="growth">-5.5% ▲</td></tr>
+
+                        <tr><td rowspan="4" class="font-bold align-middle">پرواز</td><td rowspan="4" class="align-middle">۳ ماه اخیر<br>مقابل<br>۳ ماه گذشته</td><td>کلیک</td><td>95.1K</td><td>71.4K</td><td class="growth">+33.2% ▲</td></tr>
+                        <tr><td>نمایش</td><td>6.18M</td><td>6.2M</td><td class="decline">-0.3% ▼</td></tr>
+                        <tr><td>CTR</td><td>1.5%</td><td>1.2%</td><td class="growth">+25.0% ▲</td></tr>
+                        <tr><td>جایگاه</td><td>8.6</td><td>9.2</td><td class="growth">-6.5% ▲</td></tr>
+
+                        <tr class="bg-gray-100"><td rowspan="4" class="font-bold align-middle">پرواز</td><td rowspan="4" class="align-middle">۶ ماه اخیر<br>مقابل<br>۶ ماه گذشته</td><td>کلیک</td><td>166K</td><td>132K</td><td class="growth">+25.8% ▲</td></tr>
+                        <tr class="bg-gray-100"><td>نمایش</td><td>12.4M</td><td>28.6M</td><td class="decline">-56.6% ▼</td></tr>
+                        <tr class="bg-gray-100"><td>CTR</td><td>1.3%</td><td>0.5%</td><td class="growth">+160.0% ▲</td></tr>
+                        <tr class="bg-gray-100"><td>جایگاه</td><td>8.9</td><td>8.9</td><td>0% ▬</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Slide 22: Competitor Black Box -->
+        <div class="slide">
+             <h2 class="slide-title text-5xl md:text-7xl">جعبه سیاه رقبا</h2>
+             <p class="text-xl md:text-2xl text-gray-600 mt-4">(بررسی زنده در Looker Studio)</p>
+        </div>
+
+        <!-- Slide 23: Website Redesign -->
+        <div class="slide">
+             <h2 class="slide-title">مشاوره بازطراحی سایت</h2>
+             <p class="text-xl md:text-3xl max-w-3xl leading-relaxed text-gray-700">
+                حضور فعال در جلسات تیم طراحی و ارائه مشاوره تخصصی سئو برای اطمینان از پیاده‌سازی صحیح زیرساخت‌های فنی و استانداردهای سئو در نسخه جدید سایت.
+             </p>
+        </div>
+        
+        <!-- Slide 24: Link Building -->
+        <div class="slide">
+             <h2 class="slide-title">کمپین‌های لینک‌سازی خارجی</h2>
+             <div class="w-full max-w-4xl text-lg md:text-2xl text-gray-700">
+                <p class="mb-6">طراحی کمپین رپورتاژ آگهی (انتشار محتوا در ۲۵ تا ۳۰ رسانه به صورت ماهانه) با استراتژی تقسیم بودجه زیر:</p>
+                <div class="flex flex-col md:flex-row justify-around items-center w-full">
+                    <div class="text-center p-4 md:p-8 rounded-lg bg-blue-50 border-t-4 border-taha-blue shadow-lg mb-4 md:mb-0 md:mx-2">
+                        <p class="font-bold text-3xl md:text-5xl text-taha-blue">80%</p>
+                        <p class="mt-2 text-md md:text-xl">تمرکز بر مسیرهای پررقابت دبی و استانبول</p>
+                    </div>
+                    <div class="text-center p-4 md:p-8 rounded-lg bg-yellow-50 border-t-4 border-taha-yellow shadow-lg md:mx-2">
+                        <p class="font-bold text-3xl md:text-5xl text-taha-yellow">20%</p>
+                        <p class="mt-2 text-md md:text-xl">حفظ و تقویت رتبه‌های تورهای لوکس</p>
+                    </div>
+                </div>
+             </div>
+        </div>
+
+        <!-- Slide 25: AI Answer Machine Negotiation -->
+        <div class="slide">
+             <h2 class="slide-title">مذاکره با رسانه‌ها (AI Answer Machine)</h2>
+             <div class="flex flex-col md:flex-row items-center justify-center max-w-4xl">
+                <div class="md:ml-8 mb-4 md:mb-0 shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="h-24 w-24 md:h-32 md:w-32 text-taha-blue">
+                        <path d="M12 8V4H8"></path>
+                        <rect x="4" y="12" width="16" height="8" rx="2"></rect>
+                        <path d="M9 16.5v-3h6v3"></path>
+                        <path d="M4 12V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"></path>
+                        <path d="M12 6h.01"></path>
+                    </svg>
+                </div>
+                <p class="text-lg md:text-xl max-w-2xl leading-relaxed text-gray-700 text-right">
+                    برای حضور موثر در ماشین‌های پاسخگوی هوش مصنوعی (AI Answer Machine) نظیر Gemini و ChatGPT، نیاز داریم که محتوای مقایسه‌ای، راهنمای خرید و معرفی برند را در رسانه‌های معتبر کشور منتشر کنیم. با توجه به اینکه انتشار این محتوا از طریق پلتفرم‌های واسط ممکن نیست، باید به صورت مستقیم با رسانه‌ها مذاکره شود.
+                </p>
+             </div>
+        </div>
+
+        <!-- Slide 26: Luxury Packages Management -->
+        <div class="slide">
+             <h2 class="slide-title">مدیریت پکیج‌های لوکس</h2>
+             <div class="flex flex-col md:flex-row items-center justify-center max-w-4xl">
+                <div class="md:ml-8 mb-4 md:mb-0 shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="h-24 w-24 md:h-32 md:w-32 text-taha-blue">
+                        <path d="M6 3h12l4 6-10 12L2 9l4-6z"></path>
+                        <path d="M2 9h20"></path>
+                        <path d="m7 9-2 12"></path><path d="m17 9 2 12"></path>
+                        <path d="m12 3-2 6h4l-2-6"></path>
+                    </svg>
+                </div>
+                <p class="text-lg md:text-xl max-w-2xl leading-relaxed text-gray-700 text-right">
+                    دریافت و انتشار پکیج‌های لوکس به صورت منظم بر روی سایت جهت اطمینان از به‌روز بودن اطلاعات و ارائه بهترین پیشنهادات به کاربران.
+                </p>
+             </div>
+        </div>
+
+        <!-- Slide 27: Services Summary Table -->
+        <div class="slide">
+            <h2 class="slide-title">جدول خلاصه خدمات</h2>
+            <div class="w-full max-w-6xl px-4">
+                <table class="w-full text-right border-collapse text-sm md:text-base">
+                    <thead>
+                        <tr class="taha-blue text-white">
+                            <th class="border border-gray-300 p-2 md:p-3">خدمت</th>
+                            <th class="border border-gray-300 p-2 md:p-3">شرح فعالیت</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border border-gray-300 p-2 md:p-3 font-bold">استراتژی سئو ویزا</td>
+                            <td class="border border-gray-300 p-2 md:p-3">طراحی استراتژی شامل کیورد ریسرچ، اسکچ اولیه و همکاری با تیم دیزاین</td>
+                        </tr>
+                        <tr class="bg-gray-50">
+                            <td class="border border-gray-300 p-2 md:p-3 font-bold">استراتژی سئو هتل</td>
+                            <td class="border border-gray-300 p-2 md:p-3">طراحی استراتژی شامل کیورد ریسرچ، وایرفریم و همکاری با تیم فنی و دیزاین</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-300 p-2 md:p-3 font-bold">بهینه سازی صفحات هتل</td>
+                            <td class="border border-gray-300 p-2 md:p-3">بهینه سازی ماهانه 15 صفحه از صفحات هتل</td>
+                        </tr>
+                        <tr class="bg-gray-50">
+                            <td class="border border-gray-300 p-2 md:p-3 font-bold">بازاریابی محتوایی تور</td>
+                            <td class="border border-gray-300 p-2 md:p-3">ساخت پکیج‌های جدید و تمرکز بر دبی/استانبول (۱۵ صفحه جدید ماهانه)</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-300 p-2 md:p-3 font-bold">بازاریابی محتوایی بلیط هواپیما</td>
+                            <td class="border border-gray-300 p-2 md:p-3">طراحی و پیاده‌سازی اتوماسیون تولید محتوا برای صفحات کلیدی</td>
+                        </tr>
+                        <tr class="bg-gray-50">
+                            <td class="border border-gray-300 p-2 md:p-3 font-bold">کمپین لینک‌سازی خارجی</td>
+                            <td class="border border-gray-300 p-2 md:p-3">طراحی کمپین رپورتاژ آگهی (انتشار محتوا در ۲۵ تا ۳۰ رسانه به صورت ماهانه)</td>
+                        </tr>
+                         <tr>
+                            <td class="border border-gray-300 p-2 md:p-3 font-bold">حضور در AI Answer Machine</td>
+                            <td class="border border-gray-300 p-2 md:p-3">مذاکره مستقیم با رسانه‌ها جهت انتشار محتوای مقایسه‌ای و راهنمای خرید</td>
+                        </tr>
+                         <tr class="bg-gray-50">
+                            <td class="border border-gray-300 p-2 md:p-3 font-bold">مدیریت پکیج‌های لوکس</td>
+                            <td class="border border-gray-300 p-2 md:p-3">دریافت و انتشار پکیج‌های لوکس بر روی سایت</td>
+                        </tr>
+                         <tr>
+                            <td class="border border-gray-300 p-2 md:p-3 font-bold">مشاوره بازطراحی سایت</td>
+                            <td class="border border-gray-300 p-2 md:p-3">حضور در جلسات طراحی و ارائه مشاوره تخصصی سئو</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Slide 28: Cost -->
+        <div class="slide">
+             <h2 class="slide-title">هزینه خدمات</h2>
+             <div class="bg-white p-6 md:p-12 rounded-xl shadow-2xl border-2 border-taha-yellow">
+                <p class="text-lg md:text-2xl text-gray-600 mb-4">مبلغ ماهانه برای تمام خدمات ذکر شده</p>
+                <p class="text-4xl md:text-6xl font-bold text-taha-blue">۴۵ میلیون تومان</p>
+             </div>
+        </div>
+
+        <!-- Slide 29: End -->
+        <div class="slide bg-white">
+            <img src="https://s34.picofile.com/file/8487040084/Horizontal_Logo.png" alt="لوگوی طاهاگشت" class="w-2/3 md:w-1/2">
+            <h2 class="text-taha-blue text-2xl md:text-4xl font-bold mt-8">با تشکر از توجه شما</h2>
+            <p class="text-gray-600 text-xl md:text-2xl mt-4">آماده پاسخگویی به سوالات شما هستیم.</p>
+        </div>
+
+
+        <!-- Navigation -->
+        <button id="prevBtn" class="nav-btn">قبلی</button>
+        <button id="nextBtn" class="nav-btn">بعدی</button>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        let currentSlide = 0;
+
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[n].classList.add('active');
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                prevSlide();
+            }
+        });
+        
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>
+
